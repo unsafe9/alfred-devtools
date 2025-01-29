@@ -1,5 +1,6 @@
 .idea/
 *.iml
+.DS_Store
 
-*.alfredworkflow/
-*.alfredworkflow
+bin/
+dist/
