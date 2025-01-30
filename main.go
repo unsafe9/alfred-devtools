@@ -51,33 +51,33 @@ var commands = []Command{
 		Keyword:  "json",
 		Subtitle: "Format JSON",
 		Subcommands: []Subcommand{
-			{"Minify", jsonFormatter("")},
+			{"minify", jsonFormatter("")},
 			{"2-space", jsonFormatter("  ")},
 			{"4-space", jsonFormatter("    ")},
-			{"Tabs", jsonFormatter("\t")},
+			{"tabs", jsonFormatter("\t")},
 		},
 	},
 	{
 		Keyword:  "uuid",
 		Subtitle: "Generate UUID",
 		Subcommands: []Subcommand{
-			{"Generate", generateUUID},
+			{"generate", generateUUID},
 		},
 	},
 	{
 		Keyword:  "lorem_ipsum",
 		Subtitle: "Generate lorem ipsum text",
 		Subcommands: []Subcommand{
-			{"Words", generateLoremIpsumWords},
-			{"Sentences", generateLoremIpsumSentences},
-			{"Paragraphs", generateLoremIpsumParagraphs},
+			{"words", generateLoremIpsumWords},
+			{"sentences", generateLoremIpsumSentences},
+			{"paragraphs", generateLoremIpsumParagraphs},
 		},
 	},
 	{
 		Keyword:  "jwt",
 		Subtitle: "Decode JWT",
 		Subcommands: []Subcommand{
-			{"Decode", decodeJWT},
+			{"decode", decodeJWT},
 		},
 	},
 }
