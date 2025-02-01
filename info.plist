@@ -4,15 +4,13 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.unsafe9.devtools</string>
-	<key>category</key>
-	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>0F7E6E28-7754-4EB7-9877-2940E644CE24</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>6BC7EC7C-BE31-479F-B33F-99F5811F030F</string>
+				<string>95ABC7AB-1075-419F-89A4-D6EC22035AC1</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -20,11 +18,26 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+		</array>
+		<key>95ABC7AB-1075-419F-89A4-D6EC22035AC1</key>
+		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>C3BFC65A-17E8-40DC-A208-CB5F13933A61</string>
+				<string>74D666CD-3408-4648-B1B6-0A47D1857A1A</string>
 				<key>modifiers</key>
-				<integer>1048576</integer>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>fileexists</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>6BC7EC7C-BE31-479F-B33F-99F5811F030F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>vitoclose</key>
@@ -55,6 +68,29 @@
 	<string>Dev Tools</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>path</key>
+				<string>{query}</string>
+				<key>sortBy</key>
+				<integer>0</integer>
+				<key>sortDirection</key>
+				<integer>0</integer>
+				<key>sortFoldersAtTop</key>
+				<false/>
+				<key>sortOverride</key>
+				<false/>
+				<key>stackBrowserView</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.browseinalfred</string>
+			<key>uid</key>
+			<string>74D666CD-3408-4648-B1B6-0A47D1857A1A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -101,25 +137,6 @@
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>B9557833-D74D-4C59-8644-EB58E8F1CA4F</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>ignoredynamicplaceholders</key>
-				<false/>
-				<key>transient</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>6BC7EC7C-BE31-479F-B33F-99F5811F030F</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -173,29 +190,34 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alignment</key>
-				<integer>0</integer>
-				<key>backgroundcolor</key>
+				<key>fileutivariablename</key>
 				<string></string>
-				<key>fadespeed</key>
-				<integer>100</integer>
-				<key>fillmode</key>
-				<integer>0</integer>
-				<key>font</key>
-				<string>Monaco</string>
-				<key>ignoredynamicplaceholders</key>
+				<key>outputfileuti</key>
 				<false/>
-				<key>largetypetext</key>
-				<string>{query}</string>
-				<key>textcolor</key>
-				<string></string>
-				<key>wrapat</key>
-				<integer>50</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.largetype</string>
+			<string>alfred.workflow.utility.file</string>
 			<key>uid</key>
-			<string>C3BFC65A-17E8-40DC-A208-CB5F13933A61</string>
+			<string>95ABC7AB-1075-419F-89A4-D6EC22035AC1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>6BC7EC7C-BE31-479F-B33F-99F5811F030F</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -214,9 +236,23 @@
 		<key>6BC7EC7C-BE31-479F-B33F-99F5811F030F</key>
 		<dict>
 			<key>xpos</key>
-			<real>420</real>
+			<real>505</real>
 			<key>ypos</key>
-			<real>300</real>
+			<real>375</real>
+		</dict>
+		<key>74D666CD-3408-4648-B1B6-0A47D1857A1A</key>
+		<dict>
+			<key>xpos</key>
+			<real>500</real>
+			<key>ypos</key>
+			<real>230</real>
+		</dict>
+		<key>95ABC7AB-1075-419F-89A4-D6EC22035AC1</key>
+		<dict>
+			<key>xpos</key>
+			<real>395</real>
+			<key>ypos</key>
+			<real>320</real>
 		</dict>
 		<key>B9557833-D74D-4C59-8644-EB58E8F1CA4F</key>
 		<dict>
@@ -224,13 +260,6 @@
 			<real>55</real>
 			<key>ypos</key>
 			<real>300</real>
-		</dict>
-		<key>C3BFC65A-17E8-40DC-A208-CB5F13933A61</key>
-		<dict>
-			<key>xpos</key>
-			<real>425</real>
-			<key>ypos</key>
-			<real>430</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>

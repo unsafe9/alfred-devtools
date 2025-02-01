@@ -10,13 +10,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/deanishe/awgo"
+	"github.com/skip2/go-qrcode"
 	"hash"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 )
 
 var wf *aw.Workflow
+
+const (
+	SubcommandTypeText = iota
+	SubcommandTypeImage
+)
 
 type Command struct {
 	Keyword     string
@@ -27,6 +34,7 @@ type Command struct {
 type Subcommand struct {
 	Title   string
 	Handler func(string) string
+	Type    int
 }
 
 var commands = []Command{
@@ -34,50 +42,113 @@ var commands = []Command{
 		Keyword:  "base64",
 		Subtitle: "Encode/Decode Base64",
 		Subcommands: []Subcommand{
-			{"encode", encodeBase64},
-			{"decode", decodeBase64},
+			{
+				Title:   "encode",
+				Handler: encodeBase64,
+			},
+			{
+				Title:   "decode",
+				Handler: decodeBase64,
+			},
 		},
 	},
 	{
 		Keyword:  "hash",
 		Subtitle: "Hash Text",
 		Subcommands: []Subcommand{
-			{"md5", hashEncoder(md5.New())},
-			{"sha1", hashEncoder(sha1.New())},
-			{"sha256", hashEncoder(sha256.New())},
+			{
+				Title:   "md5",
+				Handler: hashEncoder(md5.New()),
+			},
+			{
+				Title:   "sha1",
+				Handler: hashEncoder(sha1.New()),
+			},
+			{
+				Title:   "sha256",
+				Handler: hashEncoder(sha256.New()),
+			},
 		},
 	},
 	{
 		Keyword:  "json",
 		Subtitle: "Format JSON",
 		Subcommands: []Subcommand{
-			{"minify", jsonFormatter("")},
-			{"2-space", jsonFormatter("  ")},
-			{"4-space", jsonFormatter("    ")},
-			{"tabs", jsonFormatter("\t")},
+			{
+				Title:   "minify",
+				Handler: jsonFormatter(""),
+			},
+			{
+				Title:   "2-space",
+				Handler: jsonFormatter("  "),
+			},
+			{
+				Title:   "4-space",
+				Handler: jsonFormatter("    "),
+			},
+			{
+				Title:   "tabs",
+				Handler: jsonFormatter("\t"),
+			},
 		},
 	},
 	{
 		Keyword:  "uuid",
 		Subtitle: "Generate UUID",
 		Subcommands: []Subcommand{
-			{"generate", generateUUID},
+			{
+				Title:   "generate",
+				Handler: generateUUID,
+			},
 		},
 	},
 	{
 		Keyword:  "lorem_ipsum",
 		Subtitle: "Generate lorem ipsum text",
 		Subcommands: []Subcommand{
-			{"words", generateLoremIpsumWords},
-			{"sentences", generateLoremIpsumSentences},
-			{"paragraphs", generateLoremIpsumParagraphs},
+			{
+				Title:   "words",
+				Handler: generateLoremIpsumWords,
+			},
+			{
+				Title:   "sentences",
+				Handler: generateLoremIpsumSentences,
+			},
+			{
+				Title:   "paragraphs",
+				Handler: generateLoremIpsumParagraphs,
+			},
 		},
 	},
 	{
 		Keyword:  "jwt",
 		Subtitle: "Decode JWT",
 		Subcommands: []Subcommand{
-			{"decode", decodeJWT},
+			{
+				Title:   "decode",
+				Handler: decodeJWT,
+			},
+		},
+	},
+	{
+		Keyword:  "qrcode",
+		Subtitle: "Generate QR code",
+		Subcommands: []Subcommand{
+			{
+				Title:   "medium",
+				Handler: qrcodeGenerator(1),
+				Type:    SubcommandTypeImage,
+			},
+			{
+				Title:   "high",
+				Handler: qrcodeGenerator(2),
+				Type:    SubcommandTypeImage,
+			},
+			{
+				Title:   "highest",
+				Handler: qrcodeGenerator(3),
+				Type:    SubcommandTypeImage,
+			},
 		},
 	},
 }
@@ -109,11 +180,15 @@ func run() {
 
 				for _, subcmd := range cmd.Subcommands {
 					result := subcmd.Handler(input)
-					wf.NewItem(subcmd.Title).
+					item := wf.NewItem(subcmd.Title).
 						Subtitle(result).
 						Arg(result).
 						Autocomplete(subcmd.Title).
 						Valid(true)
+					if subcmd.Type == SubcommandTypeImage {
+						icon := &aw.Icon{Value: result, Type: aw.IconTypeImage}
+						item.IsFile(true).Icon(icon)
+					}
 				}
 				break
 			}
@@ -221,4 +296,22 @@ func decodeJWT(input string) string {
 		return "Invalid JWT payload"
 	}
 	return string(payload)
+}
+
+func qrcodeGenerator(level int) func(string) string {
+	return func(input string) string {
+		png, err := qrcode.Encode(input, qrcode.RecoveryLevel(level), level*256)
+		if err != nil {
+			return "Failed to generate QR code"
+		}
+		f, err := os.CreateTemp("", "alfred_devtools_qrcode_*.png")
+		if err != nil {
+			return "Failed to create QR code file"
+		}
+		defer f.Close()
+		if _, err := f.Write(png); err != nil {
+			return "Failed to write QR code file"
+		}
+		return f.Name()
+	}
 }
