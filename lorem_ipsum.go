@@ -2,12 +2,13 @@ package main
 
 import (
 	"math/rand/v2"
+	"strconv"
 	"strings"
 )
 
 type LoremIpsumGenerator []string
 
-var LoremIpsum = LoremIpsumGenerator{
+var loremIpsum = LoremIpsumGenerator{
 	"lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
 	"adipiscing", "elit", "sed", "do", "eiusmod", "tempor",
 	"incididunt", "ut", "labore", "et", "dolore", "magna", "aliqua",
@@ -24,7 +25,8 @@ func (r LoremIpsumGenerator) word() string {
 	return r[rand.IntN(len(r))]
 }
 
-func (r LoremIpsumGenerator) Words(n int) string {
+func (r LoremIpsumGenerator) Words(input string) string {
+	n := atoi(input, 10)
 	if n <= 0 {
 		return ""
 	}
@@ -39,7 +41,8 @@ func (r LoremIpsumGenerator) Words(n int) string {
 	return buf.String()
 }
 
-func (r LoremIpsumGenerator) Sentences(n int) string {
+func (r LoremIpsumGenerator) Sentences(input string) string {
+	n := atoi(input, 2)
 	if n <= 0 {
 		return ""
 	}
@@ -72,14 +75,15 @@ func (r LoremIpsumGenerator) Sentences(n int) string {
 	return buf.String()
 }
 
-func (r LoremIpsumGenerator) Paragraphs(n int) string {
+func (r LoremIpsumGenerator) Paragraphs(input string) string {
+	n := atoi(input, 1)
 	if n <= 0 {
 		return ""
 	}
 	buf := strings.Builder{}
 	buf.Grow(n * 500)
 	for i := 0; i < n; i++ {
-		sentences := r.Sentences(rand.IntN(5) + 3)
+		sentences := r.Sentences(strconv.Itoa(rand.IntN(5) + 3))
 		buf.WriteString(sentences)
 		if i < n-1 {
 			buf.WriteString("\n\n")
